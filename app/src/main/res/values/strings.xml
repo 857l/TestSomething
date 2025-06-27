@@ -2,4 +2,6 @@
     <string name="app_name">TestSomething</string>
     <string name="login">Login</string>
     <string name="agreement_full_text">I agree with terms of use and privacy policy</string>
+    <string name="attention">Attention</string>
+    <string name="service_not_available">Service not available</string>
 </resources>

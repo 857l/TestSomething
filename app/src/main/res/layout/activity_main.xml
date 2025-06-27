@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/login"
-        android:paddingTop="32dp">
+        android:layout_marginTop="48dp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editText"
@@ -26,16 +26,17 @@
 
     <CheckBox
         android:id="@+id/checkBox"
-        android:enabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:enabled="false"
         android:text="@string/agreement_full_text" />
 
     <Button
         android:id="@+id/loginButton"
-        android:enabled="false"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login" />
+        android:enabled="false"
+        android:text="@string/login"
+        android:layout_marginBottom="48dp"/>
 
 </LinearLayout>
