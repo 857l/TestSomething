@@ -1,12 +1,10 @@
 package ru.n857l.testsomething
 
-import android.graphics.Color
 import android.os.Bundle
 import android.widget.ImageButton
-import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
 import androidx.core.widget.doAfterTextChanged
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import ru.n857l.testsomething.databinding.ActivityMainBinding
@@ -27,17 +25,28 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.editText.doAfterTextChanged {
-            binding.checkBox.isEnabled = !it.isNullOrEmpty()
+            val email = it.toString()
+            val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+
+            if (!valid){
+                binding.checkBox.isEnabled = false
+                binding.textInputLayout.error = "Incorrect email"
+            }
+            else{
+                binding.checkBox.isEnabled = !it.isNullOrEmpty()
+                binding.textInputLayout.error = null
+            }
         }
 
         binding.loginButton.setOnClickListener {
-            val dialog = BottomSheetDialog(this).apply {
-                setContentView(R.layout.dialog)
-                setCancelable(false)
+            val dialogView = layoutInflater.inflate(R.layout.dialog, null)
 
-            }
+            val dialog = AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(false)
+                .create()
 
-            val closeButton = dialog.findViewById<ImageButton>(R.id.closeButton)
+            val closeButton = dialogView.findViewById<ImageButton>(R.id.closeButton)
             closeButton?.setOnClickListener {
                 dialog.dismiss()
             }
