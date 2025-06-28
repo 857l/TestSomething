@@ -12,6 +12,7 @@ import ru.n857l.testsomething.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private val viewModel : ViewModel = ViewModel(Repository())
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -25,17 +26,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         binding.editText.doAfterTextChanged {
-            val email = it.toString()
-            val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-            if (!valid){
-                binding.checkBox.isEnabled = false
-                binding.textInputLayout.error = "Incorrect email"
-            }
-            else{
-                binding.checkBox.isEnabled = !it.isNullOrEmpty()
-                binding.textInputLayout.error = null
-            }
+            viewModel.login(it.toString())
         }
 
         binding.loginButton.setOnClickListener {
@@ -54,5 +45,23 @@ class MainActivity : AppCompatActivity() {
             dialog.show()
         }
 
+        viewModel.observe(object : UiStateCallback {
+            override fun postSuccess() {
+                binding.checkBox.isEnabled = true
+                binding.textInputLayout.error = ""
+            }
+
+            override fun postError(message: String) {
+                binding.checkBox.isEnabled = false
+                binding.textInputLayout.error = message
+            }
+
+        })
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.clear()
     }
 }
