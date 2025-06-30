@@ -1,16 +1,7 @@
 package ru.n857l.testsomething
 
-class ViewModel(private val repository: Repository) : Observe {
-
-    fun login(email: String) {
-        val valid = android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-
-        if (valid) {
-            this.callback.postSuccess()
-        } else {
-            this.callback.postError("wrong email")
-        }
-    }
+class ViewModel(private val repository: Repository, private val secondsToHours: SecondsToHours) :
+    Observe {
 
     private var callback: UiStateCallback = UiStateCallback.Base()
 
@@ -22,6 +13,15 @@ class ViewModel(private val repository: Repository) : Observe {
         callback = UiStateCallback.Base()
     }
 
+    fun startTrackingTime() {
+        callback.post(secondsToHours.map(repository.time()))
+        repository.startTracking()
+    }
+
+    fun stopTrackingTime() {
+        repository.stopTracking()
+    }
+
 }
 
 interface Observe {
@@ -29,13 +29,11 @@ interface Observe {
 }
 
 interface UiStateCallback {
-    fun postSuccess()
-    fun postError(message: String)
+    fun post(message: String)
 
     class Base : UiStateCallback {
-        override fun postSuccess() = Unit
 
-        override fun postError(message: String) = Unit
+        override fun post(message: String) = Unit
 
     }
 }
