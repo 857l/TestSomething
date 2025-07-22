@@ -1,7 +1,6 @@
 package ru.n857l.testsomething
 
 import android.content.Context
-import android.content.SharedPreferences
 
 class Repository(context: Context) {
 

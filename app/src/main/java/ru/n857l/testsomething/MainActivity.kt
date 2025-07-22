@@ -1,14 +1,9 @@
 package ru.n857l.testsomething
 
 import android.os.Bundle
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.widget.doAfterTextChanged
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import ru.n857l.testsomething.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
