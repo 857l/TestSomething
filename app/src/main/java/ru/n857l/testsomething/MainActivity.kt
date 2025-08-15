@@ -11,7 +11,7 @@ import ru.n857l.testsomething.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
-    private val viewModel : ViewModel = ViewModel(Repository())
+    private lateinit var viewModel: ViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
@@ -19,6 +19,8 @@ class MainActivity : AppCompatActivity() {
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        viewModel = (application as MyApplication).viewModel
 
         binding.checkBox.setOnCheckedChangeListener { _, isChecked ->
             binding.loginButton.isEnabled = isChecked
@@ -45,6 +47,10 @@ class MainActivity : AppCompatActivity() {
         }
 
         viewModel.observe(object : UiStateCallback {
+            override fun postEmail(value: String) {
+                binding.editText.setText(value)
+            }
+
             override fun postSuccess() {
                 binding.checkBox.isEnabled = true
                 binding.textInputLayout.error = ""
@@ -56,6 +62,8 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
+
+        viewModel.init(savedInstanceState == null)
 
     }
 
